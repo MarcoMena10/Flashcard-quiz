@@ -8,12 +8,10 @@ import java.util.Collections;
 
 public class Quiz
 	{
-		 private static FlashCardSet set = new FlashCardSet();
-		 static Scanner in = new Scanner(System.in);
 		 static Scanner userIntInput = new Scanner(System.in);
-		 static FlashCardSet fullSet = new FlashCardSet();
+		 static FlashCardSet fullSet = new FlashCardSet(); // this is the full set that contains every card
 		 // A list that will hold the flashcards for the specific quiz/test
-		 static ArrayList<FlashCard> testSet = new ArrayList<>();
+		 static ArrayList<FlashCard> testSet = new ArrayList<>(); // creates a new arraylist where a set will be filled with only the desired category
 		 static int score = 0;
 		 // category idea inspired by chatgpt
 		  private static String selectedCategory = "";
@@ -30,13 +28,11 @@ public class Quiz
 			}
 			public static void askSet()
 			{
-				// shows category options
-				System.out.println("Choose a Category ");
 				System.out.println("1. Important Figures");
 				System.out.println("2. Important Dates");
 				System.out.println("3. Important Events");
-			    System.out.println("4. Important Laws");
-			    System.out.println("5. All categories");
+				System.out.println("4. Important Laws");
+				System.out.println("5. All categories");
 			    System.out.print("Enter choice. Please press the respective number for the category you wish to study ");
 			    int choice = userIntInput.nextInt();
 			    userIntInput.nextLine(); 
@@ -77,7 +73,9 @@ public class Quiz
 				 // filters cards by specific set
 				    for (int i = 0; i < allCards.size(); i++) 
 				    {
+				    	//all available flashcards are retreived, 
 				        FlashCard card = allCards.get(i);
+				        // flashacrds are called by their given category or if the user selects all, all flashcards are retreived
 				        if (selectedCategory.equals("ALL") || card.getCategory().equals(selectedCategory)) 
 				        {
 				            testSet.add(card);
@@ -129,10 +127,10 @@ public class Quiz
 				        int userChoice = -1;
 				        while (userChoice < 1 || userChoice > 4) 
 				        {
-				            if (in.hasNextInt()) 
+				            if (userIntInput.hasNextInt()) 
 				            {
-				                userChoice = in.nextInt();
-				                in.nextLine(); // consume newline, idea from chatgpt. all newline code is
+				                userChoice = userIntInput.nextInt();
+				                userIntInput.nextLine(); // consume newline, idea from chatgpt. all newline code is
 				                if (userChoice < 1 || userChoice > 4) 
 				                {
 				                    System.out.print("Please enter 1–4: ");
@@ -140,7 +138,7 @@ public class Quiz
 				            } 
 				            else 
 				            {
-				                in.nextLine(); // discard invalid input
+				            	userIntInput.nextLine(); // discard invalid input
 				                System.out.print("Invalid Input. Please enter 1–4: ");
 				            }
 				        }
@@ -148,7 +146,7 @@ public class Quiz
 				        String selectedAnswer = choices.get(userChoice - 1);
 				        if (selectedAnswer.equals(correctAnswer)) 
 				        {
-				            System.out.println(" Correct!");
+				            System.out.println("Correct!");
 				            score++;
 				            correctCard.setMastered(true);
 				        } 
@@ -161,6 +159,7 @@ public class Quiz
 			}
 			public static void reportScore()
 			{
+				// reports the score the user got out oof the amount of cards they were given
 				 System.out.println("You answered " + score + " out of " + testSet.size() + " correctly.");	 
 				 
 			}	
