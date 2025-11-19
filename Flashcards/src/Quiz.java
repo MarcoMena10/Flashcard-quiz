@@ -22,7 +22,7 @@ public class Quiz
 			{ 
 				
 				FlashCardSet.fillSet(); // fill the set
-				askSet(); // ask what flash cards the user wants to be quized on
+				askSet(); // ask what flash cards the user wants to be quizzed on
 			    makeSet(); // create the test
 				giveTest(); // give the test
 				reportScore(); // report user score
