@@ -20,25 +20,51 @@ public class Quiz
 			{ 
 				
 				FlashCardSet.fillSet(); // fill the set
+				 boolean keepGoing = true;
+
+				    while (keepGoing) 
+			{    	
 				askSet(); // ask what flash cards the user wants to be quizzed on
 			    makeSet(); // create the test
 				giveTest(); // give the test
 				reportScore(); // report user score
+				System.out.println("\nTake another quiz?");
+				System.out.println("1. Yes");
+				System.out.println("2. No");
+
+				int input = userIntInput.nextInt();  // read number directly
+				userIntInput.nextLine();             // consume newline
+
+				if (input == 1) {
+				    keepGoing = true;
+				} else {
+				    keepGoing = false;
+				}
+	    	}
 				
 			}
 			public static void askSet()
 			{
+				System.out.println("0. Reset all mastery");
 				System.out.println("1. Important Figures");
 				System.out.println("2. Important Dates");
 				System.out.println("3. Important Events");
 				System.out.println("4. Important Laws");
 				System.out.println("5. All categories");
+				System.out.println("6. Unmastered cards only (cards you haven't studuied yet or have not yet gotten right)");
 			    System.out.print("Enter choice. Please press the respective number for the category you wish to study ");
 			    int choice = userIntInput.nextInt();
 			    userIntInput.nextLine(); 
 			    
 			    switch (choice) 
 			    {
+			    case 0:
+			    			{
+			    			    resetMastery();
+			    			    System.out.println("All mastery reset!");
+			    			    askSet();
+			    			    return;
+			    			}
 				case 1:
 						{
 							selectedCategory = "Important Figures";
@@ -64,10 +90,19 @@ public class Quiz
 							selectedCategory = "ALL";
 							break; 
 						}
+				case 6:
+						{
+							 selectedCategory = "UNMASTERED";
+							    break;
+						}
+						
 			    }
+			    
 			}
 			public static void makeSet()
 			{
+				//clears previous test set
+				testSet.clear();
 				// gets all available flash cards
 				 ArrayList<FlashCard> allCards = fullSet.getSet();
 				 // filters cards by specific set
@@ -80,6 +115,10 @@ public class Quiz
 				        {
 				            testSet.add(card);
 				        }
+				        else if (selectedCategory.equals("UNMASTERED") && !card.isMastered()) 
+				            {
+				                testSet.add(card);
+				            }
 				    }				    
 				    {
 				        System.out.println("Loaded " + testSet.size() + " flashcards about " + selectedCategory);
@@ -162,5 +201,13 @@ public class Quiz
 				// reports the score the user got out oof the amount of cards they were given
 				 System.out.println("You answered " + score + " out of " + testSet.size() + " correctly.");	 
 				 
-			}	
+			}
+			public static void resetMastery()
+			    {
+
+			    	 for (int i = 0; i < fullSet.getSet().size(); i++)
+			    		    {
+			    		        fullSet.getSet().get(i).setMastered(false);
+			    		    }
+			    }
 	}
